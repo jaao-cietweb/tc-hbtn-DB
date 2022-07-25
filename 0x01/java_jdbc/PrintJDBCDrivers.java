@@ -1,13 +1,13 @@
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.util.Enumeration;
+
 public class PrintJDBCDrivers {
     public static void main(String[] args) {
-        try{
-
-            Class.forName("com.mysql.jdbc.Driver");
-
-        }catch(ClassNotFoundException cnfe){
-
-            cnfe.printStackTrace();
-
+        Enumeration <Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()){
+            Driver driver = drivers.nextElement();
+            System.out.println(driver.toString());
         }
     }
 }
