@@ -6,37 +6,33 @@ public class ClienteDAOImpl implements ClienteDAO {
     @Override
     public Connection connect(String urlConexao) {
         try {
-            conn = DriverManager.getConnection("jdbc:sqlite:sqlite_database_2022.db");
-            System.out.println("Conectou");
+            conn = DriverManager.getConnection(urlConexao);
+            return conn;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            return null;
         }
-        return null;
     }
 
     @Override
     public void createTable(String urlConexao) {
         StringBuffer sql = new StringBuffer();
-        sql.append("CREATE TABLE IF NOT EXISTS cliente (");
-        sql.append("id integer PRIMARY KEY , ");
-        sql.append("nome text NOT NULL, ");
-        sql.append("idade integer, ");
-        sql.append("cpf text NOT NULL, ");
-        sql.append("rg text ");
-        sql.append(")");
+        sql.append("CREATE TABLE IF NOT EXISTS cliente (id integer primary key, nome varchar(40) not null, idade integer, cpf varchar(40) not null, rg varchar(40))");
 
         try {
+            conn = connect(urlConexao);
             Statement statement =  conn.createStatement();
             statement.execute(sql.toString());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
     public void insert(String url_conexao, Cliente cliente) {
-        String sql = "INSERT INTRO cliente(nome,idade, cpf, rg) VALUES(joao,23,00225577,113355)";
+        String sql = "INSERT INTO cliente(nome,idade, cpf, rg) VALUES(?, ?, ?, ?)";
         try {
+            conn = connect(url_conexao);
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, cliente.getNome());
             preparedStatement.setInt(2, cliente.getIdade());
@@ -52,6 +48,7 @@ public class ClienteDAOImpl implements ClienteDAO {
     public void selectAll(String urlConexao) {
         String sql = "SELECT id, nome, idade, cpf, rg FROM cliente";
         try {
+            conn = connect(urlConexao);
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()){
@@ -81,7 +78,6 @@ public class ClienteDAOImpl implements ClienteDAO {
     public void delete(String urlConexao, int id) {
         try {
             conn.close();
-            System.out.println("Desconectou!!");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
