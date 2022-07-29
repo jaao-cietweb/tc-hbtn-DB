@@ -11,7 +11,7 @@ public class Aluno {
     Long id;
     String nomeCompleto;
     String matricula;
-    Date nascimeto;
+    Date nascimento;
     String email;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -73,12 +73,12 @@ public class Aluno {
         this.matricula = matricula;
     }
 
-    public Date getNascimeto() {
-        return nascimeto;
+    public Date getNascimento() {
+        return nascimento;
     }
 
-    public void setNascimeto(Date nascimeto) {
-        this.nascimeto = nascimeto;
+    public void setNascimento(Date nascimento) {
+        this.nascimento = nascimento;
     }
 
     public String getEmail() {

@@ -43,7 +43,7 @@ public class GestaoCursosMain {
         aluno.setNomeCompleto("Joao Garcia");
         aluno.setMatricula("65577");
         aluno.setEmail("joaog@email.com");
-        aluno.setNascimeto(new Date(1998));
+        aluno.setNascimento(new Date(1998));
         aluno.setEnderecos(enderecos);
         aluno.setTelefones(telefones);
 
